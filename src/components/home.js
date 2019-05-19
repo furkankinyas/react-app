@@ -1,7 +1,7 @@
 import React from 'react';
+import Header from './header';
 import Unsplash, { toJson } from "unsplash-js";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Header from './header';
 const unsplash = new Unsplash({
   applicationId: "eeb89ad66933ae094352dcee4a037cc27ba514d19da2a3030a7eb15216d5d209",
   secret: "8c7b0acce7599f2d1aa9147dda3d352f6aaaa1c229a3c7c45c86566b6fb06316"
@@ -90,15 +90,12 @@ const unsplash = new Unsplash({
     }
   
     render() {
-      if (this.state.isLoading) {
-        return <div></div>;
-      }
+
       return (
         <div>
-
           <Header onChange={this.handleFieldChange} value={this.state.searchText} />
-
-          <div className="container">
+          {!this.state.isLoading&& 
+           <div className="container">
             <InfiniteScroll
               className="row margin-bottom"
               dataLength={this.state.list.length}
@@ -117,7 +114,7 @@ const unsplash = new Unsplash({
               ))}
           </InfiniteScroll>
         </div>
-
+          }
       </div>
       );
     }

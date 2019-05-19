@@ -28,7 +28,9 @@ class Header extends React.Component{
       <header className="background-primary color-white padding-md height-md flex between middle margin-bottom-md">
         <div className="flex middle">
         <h1 className="font-weight-7 margin-right-lg">React My App</h1>
+        {this.props.activePage!="/about/"&&
         <input style={searchInput} onChange={this.handleChange} value={this.props.value} className="radius-max height-sm padding-md" placeholder="arama" type="text"/>
+        }
         </div>
           <nav>
             <ul className="flex">

@@ -10,7 +10,6 @@ function App() {
   return (
     <Router>
       <div>
-        {/* <Header /> */}
         <Route path="/" exact component={Index} />
         <Route path="/about/" component={About} />
       </div>

@@ -1,7 +1,9 @@
 import React from 'react';
-import Header from './header';
-import Unsplash, { toJson } from "unsplash-js";
+import {connect} from "react-redux";
+import { searchText } from "../actions/searchAction";
+import Header from '../components/header';
 import InfiniteScroll from "react-infinite-scroll-component";
+import Unsplash, { toJson } from "unsplash-js";
 const unsplash = new Unsplash({
   applicationId: "eeb89ad66933ae094352dcee4a037cc27ba514d19da2a3030a7eb15216d5d209",
   secret: "8c7b0acce7599f2d1aa9147dda3d352f6aaaa1c229a3c7c45c86566b6fb06316"
@@ -17,16 +19,13 @@ const unsplash = new Unsplash({
         ajaxOldPage: 0,
         list:[],
         search: false,
-        searchText: "",
         hasMore: true
       }
-      this.handleFieldChange = this.handleFieldChange.bind(this);
-      this.fetchMoreData = this.fetchMoreData.bind(this);
     }
 
     handleFieldChange = (value) => {
+      this.props.searchText(value)
       this.setState({
-        searchText: value,
         list: [],
         ajaxOldPage:0,
         ajaxPage: 1
@@ -52,7 +51,7 @@ const unsplash = new Unsplash({
     fetchMoreData = () => {
       if(this.state.ajaxOldPage<this.state.ajaxPage){
         if(this.state.search===true){
-          unsplash.search.photos(this.state.searchText, this.state.ajaxPage, 12)
+          unsplash.search.photos(this.props.search.searchText, this.state.ajaxPage, 12)
           .then(toJson)
           .then(json => {
             if(json.results.length===0){
@@ -71,7 +70,7 @@ const unsplash = new Unsplash({
           .then(toJson)
           .then(json => {
             if(json.length===0){
-              this.setState({ hasMore: false });
+              this.state.hasMore(false)
               return;
             }
             this.setState({
@@ -93,8 +92,8 @@ const unsplash = new Unsplash({
 
       return (
         <div>
-          <Header onChange={this.handleFieldChange} value={this.state.searchText} />
-          {!this.state.isLoading&& 
+          <Header changeUsername={(value) => this.handleFieldChange(value)} searchText={this.props.search.searchText}/>
+          {!this.state.isLoading&&
            <div className="container">
             <InfiniteScroll
               className="row margin-bottom"
@@ -104,7 +103,7 @@ const unsplash = new Unsplash({
               endMessage={<div className="font-size-14 text-center padding-lg font-weight-7 width-full">Şimdilik bu kadar başka birşeyler aramaya ne dersin?</div>}
               loader={<div className="font-size-14 text-center padding-lg font-weight-7 width-full">Yükleniyor...</div>}
             >
-              {this.state.list.map((item, index) => (
+              {this.state.list.length>0&&this.state.list.map((item, index) => (
                 <div className="col-4" key={index}>
                   <div className="image-wrapper margin-bottom-md">
                     <img alt={item.user.name} className="responsive-image" src={item.urls.small}/>
@@ -121,4 +120,19 @@ const unsplash = new Unsplash({
 
   }
 
-export default Index;
+  const mapStateToProps = (state) => {
+    return {
+      search: state.search
+    };
+  };
+  
+  const mapDispatchToProps = (dispatch) => {
+      return {
+        searchText: (data) => {
+          dispatch(searchText(data));
+        }
+      };
+  };
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Index);

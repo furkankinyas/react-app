@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import './App.scss';
-import './flex.css';
-import Index from './components/home';
-import About from './components/about';
+import './assets/App.scss';
+import './assets/flex.css';
+import Index from './pages/home';
+import About from './pages/about';
 
 
 function App() {

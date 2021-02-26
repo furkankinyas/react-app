@@ -1,15 +1,11 @@
-import React from 'react';
-import Header from '../components/header';
+import React from "react";
 
- function About({ match }){
-
-    return(
-      <div>
-        <Header activePage={match.url}/>
-        <h2 className="text-center padding-lg font-size-24">About</h2>
-      </div>
-    )
-
+function About() {
+  return (
+    <div>
+      <h2 className="text-center padding-lg font-size-24">About</h2>
+    </div>
+  );
 }
 
 export default About;

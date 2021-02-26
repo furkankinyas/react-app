@@ -1,12 +1,12 @@
 import {createStore, combineReducers, applyMiddleware} from "redux";
 import promise from "redux-promise-middleware";
 import thunk from "redux-thunk";
-import search from "./reducers/searchReducer";
+import searchReducer from "./reducers/searchReducer";
 import logger from 'redux-logger'
 
 export default createStore(
     combineReducers({
-      search
+      searchReducer
     }),
     applyMiddleware(thunk, logger, promise)
 );
